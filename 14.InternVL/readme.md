@@ -82,7 +82,7 @@ python demo.py
 cp /root/InternVL2-Tutorial/xtuner_config/internvl_v2_internlm2_2b_lora_finetune_food.py /root/xtuner/xtuner/configs/internvl/v2/internvl_v2_internlm2_2b_lora_finetune_food.py
 ```
 
-这边再下载数据集的时候出现了问题，结果发现是我忘记向仓库主人申请了……
+这边再下载数据集的时候出现了问题，结果发现是我忘记申请了……
 
 ![1734835606069](image/readme/1734835606069.png)
 
@@ -130,4 +130,50 @@ xtuner train /root/xtuner/xtuner/configs/internvl/v2/internvl_v2_internlm2_2b_lo
 
 ![1734838800107](image/readme/1734838800107.png)
 
-接下来就是耐心等待咯（比较花时间，建议扔一边自己去干别的事情）
+接下来就是耐心等待咯（比较花时间，可以扔一边自己去干别的事情）
+
+在这里找到了最后一次保存的checkpoint，loss我看过了非常低，不知道会不会过拟合……
+![1734861003587](image/readme/1734861003587.png)
+
+然后转换一下格式，将pth文件换成便于测试的格式
+```
+python /root/xtuner/xtuner/configs/internvl/v1_5/convert_to_official.py /root/xtuner/xtuner/configs/internvl/v2/internvl_v2_internlm2_2b_lora_finetune_food.py ./work_dirs/internvl_v2_internlm2_2b_lora_finetune_food/iter_448.pth ./work_dirs/internvl_v2_internlm2_2b_lora_finetune_food/lr35_ep10/
+```
+
+这里又踩到坑……
+
+![1734861583273](image/readme/1734861583273.png)
+
+经过网上搜索相关问题，说是因为`transformers`这个库版本太新了……
+
+![1734861604956](image/readme/1734861604956.png)
+
+这个是我现在的版本……
+
+![1734861638164](image/readme/1734861638164.png)
+
+直接重新安装……
+
+![1734861699386](image/readme/1734861699386.png)
+
+成功了……
+
+![1734861794435](image/readme/1734861794435.png)
+
+在启动的时候也遇到了一个坑……
+
+无法启动分享链接
+
+这里需要我们查看里面的提示，安装下面的库……
+
+![1734865818591](image/readme/1734865818591.png)
+
+
+```
+pip install ninja
+pip install flash_attn
+```
+
+不容易啊，终于认出了盐水鸭……
+
+![1734865585598](image/readme/1734865585598.png)
